@@ -38,9 +38,9 @@ SELECT
   dim_customer.customer_key,
   dim_customer.customer_name,
   dim_customer.customer_category_key,
-  dim_category.customer_category_name,
+  COALESCE(dim_category.customer_category_name, 'Invalid') as customer_category_name,
   dim_customer.buying_group_key,
-  dim_group.buying_group_name,
+  COALESCE(dim_group.buying_group_name, 'Invalid') as buying_group_name,
   dim_customer.is_on_credit_hold
 
 FROM dim_customer__convert_boolean as dim_customer
