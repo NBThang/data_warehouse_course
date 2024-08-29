@@ -18,7 +18,20 @@ WITH dim_person__source as (
   from dim_person__rename_column
 )
 
+, dim_person__add_underfined_record as (
 SELECT 
   person_key,
   full_name
 FROM dim_person__cast_type
+
+-- Thêm dữ liệu 0|'Underfind'
+UNION ALL
+select 
+  0 as person_key,
+  'Underfined' as full_name  
+)
+ 
+SELECT 
+  person_key,
+  full_name
+FROM dim_person__add_underfined_record
