@@ -22,5 +22,5 @@ with fact_sales_order__source as (
 select 
   sales_order_key,
   customer_key,
-  picked_by_person_key
+  COALESCE(picked_by_person_key, 0) as picked_by_person_key 
 from fact_sales_order__cast_type

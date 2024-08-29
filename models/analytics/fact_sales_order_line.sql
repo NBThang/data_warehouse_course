@@ -29,7 +29,7 @@ SELECT
   sales_order_line_key,
   fact_order_line.sales_order_key,
   fact_order.customer_key,
-  fact_order.picked_by_person_key,
+  COALESCE(fact_order.picked_by_person_key, -1) as picked_by_person_key,
   fact_order_line.product_key,
   fact_order_line.quantity,
   fact_order_line.unit_price,

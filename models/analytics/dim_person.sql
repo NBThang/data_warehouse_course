@@ -29,6 +29,12 @@ UNION ALL
 select 
   0 as person_key,
   'Underfined' as full_name  
+
+-- Thêm dữ liệu 0|'Underfind'
+UNION ALL
+select 
+  -1 as person_key,
+  'Invalid' as full_name  
 )
  
 SELECT 
