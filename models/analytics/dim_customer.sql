@@ -34,6 +34,34 @@ WITH dim_customer__source AS (
   as is_on_credit_hold
   from dim_customer__cast_type
 )
+
+, dim_customer__add_underfined_recored as (
+  select
+    customer_key,
+    buying_group_key,
+    customer_category_key,
+    customer_name,
+    is_on_credit_hold
+  from dim_customer__convert_boolean
+
+  UNION ALL
+  select 
+    0 as customer_key,
+    0 as buying_group_key,
+    0 as customer_category_key,
+    'Underfined' as customer_name,
+    'Underfined' as is_on_credit_hold
+
+  UNION ALL
+  select 
+    -1 as customer_key,
+    -1 as buying_group_key,
+    -1 as customer_category_key,
+    'Invalid' as customer_name,
+    'Invalid' as is_on_credit_hold
+)
+
+
 SELECT 
   dim_customer.customer_key,
   dim_customer.customer_name,
@@ -43,7 +71,7 @@ SELECT
   COALESCE(dim_group.buying_group_name, 'Invalid') as buying_group_name,
   dim_customer.is_on_credit_hold
 
-FROM dim_customer__convert_boolean as dim_customer
+FROM dim_customer__add_underfined_recored as dim_customer
 
 LEFT JOIN {{ref('stg_dim_group')}} as dim_group
   ON dim_customer.buying_group_key = dim_group.buying_group_key

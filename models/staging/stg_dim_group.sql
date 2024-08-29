@@ -18,7 +18,25 @@ WITH dim_group__source as (
   from dim_group__rename_column
 )
 
+, dim_group__add_underfined_record as (
+  select
+    buying_group_key,
+    buying_group_name
+  from dim_group__cast_type
+
+  UNION ALL 
+  select 
+    0 as buying_group_key,
+    'Underfined' as buying_group_name
+
+  UNION ALL 
+  select 
+    -1 as buying_group_key,
+    'Invalid' as buying_group_name
+
+)
+
 select 
   buying_group_key,
   buying_group_name
-from dim_group__cast_type
+from dim_group__add_underfined_record
