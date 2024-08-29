@@ -29,12 +29,13 @@ SELECT
   sales_order_line_key,
   fact_order_line.sales_order_key,
   fact_order.customer_key,
+  fact_order.picked_by_person_key,
   fact_order_line.product_key,
   fact_order_line.quantity,
   fact_order_line.unit_price,
   fact_order_line.quantity * fact_order_line.unit_price AS gross_amount
 
 FROM fact_sales_order_line__cast_type AS fact_order_line
-LEFT JOIN {{ref('stg_fact_sales_order')}} AS fact_order
-ON fact_order_line.sales_order_key = fact_order.sales_order_key 
+LEFT JOIN {{ ref('stg_fact_sales_order') }} AS fact_order
+  ON fact_order_line.sales_order_key = fact_order.sales_order_key 
 
