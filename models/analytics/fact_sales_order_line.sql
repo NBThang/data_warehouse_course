@@ -28,11 +28,12 @@ WITH fact_sales_order_line__source AS (
 SELECT 
   sales_order_line_key,
   fact_order_line.sales_order_key,
-  fact_order.customer_key,
+  COALESCE(fact_order.customer_key, -1) as customer_key,
   COALESCE(fact_order.picked_by_person_key, -1) as picked_by_person_key,
   fact_order_line.product_key,
   fact_order_line.quantity,
   fact_order_line.unit_price,
+  fact_order.order_date,
   fact_order_line.quantity * fact_order_line.unit_price AS gross_amount
 
 FROM fact_sales_order_line__cast_type AS fact_order_line
